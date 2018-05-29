@@ -5,6 +5,10 @@ using Microsoft.Bot.Connector;
 
 namespace roBot.Dialogs
 {
+    /// Primeira versão do nosso bot
+    /// MÓDULO 2 -> VIDEO 01
+    /// Criando e Explorando nosso BOT
+
     [Serializable]
     public class RootDialog : IDialog<object>
     {
@@ -21,6 +25,7 @@ namespace roBot.Dialogs
         private async Task MessageReceivedAsync(IDialogContext context, IAwaitable<object> result)
         {
             var activity = await result as Activity;
+
             // se o usuário digitar resetar o contador voltara ao 1
             if (activity.Text.Contains("resetar"))
             {

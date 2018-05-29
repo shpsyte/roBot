@@ -19,9 +19,36 @@ namespace roBot
         public async Task<HttpResponseMessage> Post([FromBody]Activity activity)
         {
 
-            if (activity.GetActivityType() == ActivityTypes.Message)
+            ConnectorClient connect = new ConnectorClient(new Uri(activity.ServiceUrl));
+
+
+            ///Pega o tipo da atividade
+            string messageType = activity.GetActivityType();
+
+
+            // se for do tipo Message, então a conversa é encaminhada para nosso dialog!
+            if (messageType == ActivityTypes.Message)
             {
                 await Conversation.SendAsync(activity, () => new Dialogs.RootDialog());
+            }
+            // se for do tipo update então a conversa é NOVA e vamos mostar uma mensgem de Boas Vindas ao usuário
+            else if (messageType == ActivityTypes.ConversationUpdate)
+            {
+                if (activity.MembersAdded != null && activity.MembersAdded.Any())
+                {
+                    foreach (var member in activity.MembersAdded)
+                    {
+                        if (member.Id != activity.Recipient.Id)
+                        {
+                            var reply = activity.CreateReply();
+                            reply.Text = $"Olá, **Seja bem vindo**, sou o roBot!";
+
+                            await connect.Conversations.ReplyToActivityAsync(reply);
+
+                        };
+                    }
+
+                }
             }
             else
             {
