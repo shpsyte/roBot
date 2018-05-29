@@ -1,4 +1,6 @@
-﻿using System.Net;
+﻿using System;
+using System.Linq;
+using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
 using System.Web.Http;
@@ -16,6 +18,7 @@ namespace roBot
         /// </summary>
         public async Task<HttpResponseMessage> Post([FromBody]Activity activity)
         {
+
             if (activity.GetActivityType() == ActivityTypes.Message)
             {
                 await Conversation.SendAsync(activity, () => new Dialogs.RootDialog());
@@ -59,3 +62,24 @@ namespace roBot
         }
     }
 }
+
+
+//ConnectorClient connector = new ConnectorClient(new Uri(activity.ServiceUrl));
+
+//else if (activity.Type == ActivityTypes.ConversationUpdate)
+//            {
+//                if (activity.MembersAdded != null && activity.MembersAdded.Any())
+//                {
+//                    foreach (var member in activity.MembersAdded)
+//                    {
+//                        if (member.Id != activity.Recipient.Id)
+//                        {
+//                            var reply = activity.CreateReply();
+//reply.Text = $"asdfsadf";
+//                            await connector.Conversations.ReplyToActivityAsync(reply);
+
+//                        };
+//                    }
+
+//                }
+//            }
