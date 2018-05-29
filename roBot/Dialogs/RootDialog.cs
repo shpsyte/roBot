@@ -21,7 +21,7 @@ namespace roBot.Dialogs
         private async Task MessageReceivedAsync(IDialogContext context, IAwaitable<object> result)
         {
             var activity = await result as Activity;
-
+            // se o usuário digitar resetar o contador voltara ao 1
             if (activity.Text.Contains("resetar"))
             {
                 contador = 1;
